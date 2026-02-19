@@ -83,6 +83,28 @@
       letter-spacing: 0.03em;
     }
 
+    .screen-brand.fixed {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 40px);
+      text-align: center;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    #missionScreen,
+    #completeScreen {
+      position: relative;
+    }
+
+    #missionScreen.active,
+    #completeScreen.active {
+      justify-content: flex-start;
+      padding-top: 88px;
+    }
+
     .mission-content {
       font-size: clamp(20px, 5vw, 30px);
       line-height: 1.35;
@@ -182,6 +204,11 @@
         border-radius: 34px;
       }
 
+      .screen-brand.fixed {
+        top: 28px;
+        width: calc(100% - 88px);
+      }
+
       .screen.active {
         gap: 24px;
       }
@@ -221,7 +248,7 @@
       <button class="primary" id="startButton" type="button">始める</button>
     </section>
        <section id="missionScreen" class="screen">
-      <p class="screen-brand">3分防災リレー体験版</p>
+      <p class="screen-brand fixed">3分防災リレー体験版</p>
       <h2>3分防災ミッション</h2>
       <p class="mission-content">倒れそうな家具を一つ見つける</p>
       <div class="options" id="options"></div>
@@ -230,7 +257,7 @@
     </section>
 
     <section id="completeScreen" class="screen">
-      <p class="screen-brand">3分防災リレー体験版</p>
+      <p class="screen-brand fixed">3分防災リレー体験版</p>
       <p class="complete-message">よくやった！
 3分防災を続けていざという時に備えよう！</p>
       <button class="primary" id="shareButton" type="button">リレーする</button>
