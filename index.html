@@ -66,15 +66,15 @@ input {
       font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
       background: linear-gradient(180deg, var(--bg-start) 0%, #de7a3b 48%, var(--bg-end) 100%);
       color: var(--text);
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      display: grid;
+      place-items: center;
       padding: 20px 16px;
     }
 
     .app {
-      width: min(100%, 560px);
-      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      justify-content: center;
     }
 
     .screen {
@@ -87,8 +87,7 @@ input {
       backdrop-filter: blur(1px);
       text-align: center;
       box-shadow: 0 16px 50px rgba(0, 0, 0, 0.14);
-      width: 100%;
-      max-width: 560px;
+      width: min(100%, 560px);
       margin: 0 auto;
     }
 
@@ -360,6 +359,15 @@ input {
       alert('URLをコピーしました。共有してください。');
     }
 
+    function initApp() {
+      const startButton = document.getElementById('startButton');
+      const completeButton = document.getElementById('completeButton');
+      const shareButton = document.getElementById('shareButton');
+
+      if (!startButton || !completeButton || !shareButton) {
+        return;
+      }
+
 <div class="container">
 
 <div id="startScreen">
@@ -413,11 +421,17 @@ function shareRelay() {
   }
 }
 </script>
-    document.getElementById('startButton').addEventListener('click', () => showScreen('mission'));
-    document.getElementById('completeButton').addEventListener('click', completeMission);
-    document.getElementById('shareButton').addEventListener('click', relayShare);
+      startButton.addEventListener('click', () => showScreen('mission'));
+      completeButton.addEventListener('click', completeMission);
+      shareButton.addEventListener('click', relayShare);
+      renderOptions();
+    }
 
-    renderOptions();
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initApp);
+    } else {
+      initApp();
+    }
   </script>
 </body>
 </html>
