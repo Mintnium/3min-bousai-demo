@@ -40,8 +40,281 @@ input {
   display: none;
 }
 </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3分防災デモ</title>
+  <style>
+    :root {
+      --bg-start: #c44537;
+      --bg-end: #f0b437;
+      --card: rgba(255, 255, 255, 0.14);
+      --text: #fff8f2;
+      --button-bg: #f3ece4;
+      --button-text: #151515;
+      --option-bg: rgba(255, 255, 255, 0.18);
+      --option-selected: rgba(255, 255, 255, 0.35);
+      --border: rgba(255, 255, 255, 0.3);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+      background: linear-gradient(180deg, var(--bg-start) 0%, #de7a3b 48%, var(--bg-end) 100%);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px 16px;
+    }
+
+    .app {
+      width: min(100%, 420px);
+    }
+
+    .screen {
+      display: none;
+      min-height: min(90vh, 760px);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 28px 20px;
+      background: var(--card);
+      backdrop-filter: blur(1px);
+      text-align: center;
+      box-shadow: 0 16px 50px rgba(0, 0, 0, 0.14);
+    }
+
+    .screen.active {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 24px;
+    }
+
+    h1,
+    h2,
+    p {
+      margin: 0;
+    }
+
+    h1,
+    h2 {
+      font-size: clamp(30px, 8vw, 44px);
+      letter-spacing: 0.05em;
+      font-weight: 800;
+    }
+
+    .lead {
+      font-size: clamp(18px, 4.8vw, 24px);
+      line-height: 1.6;
+    }
+
+    .mission-title {
+      font-size: 18px;
+      opacity: 0.95;
+      font-weight: 700;
+    }
+
+    .mission-content {
+      font-size: 26px;
+      line-height: 1.35;
+      font-weight: 700;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      text-align: left;
+    }
+
+    .option {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 12px 14px;
+      background: var(--option-bg);
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s ease;
+      text-align: center;
+      user-select: none;
+    }
+
+    .option.selected {
+      background: var(--option-selected);
+      border-color: rgba(255, 255, 255, 0.7);
+      transform: translateY(-1px);
+    }
+
+    #otherInput {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 16px;
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      display: none;
+    }
+
+    #otherInput::placeholder {
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    .primary {
+      border: none;
+      border-radius: 999px;
+      background: var(--button-bg);
+      color: var(--button-text);
+      font-size: clamp(20px, 5.8vw, 38px);
+      font-weight: 800;
+      padding: 16px 20px;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .complete-message {
+      font-size: clamp(22px, 6.3vw, 34px);
+      line-height: 1.6;
+      font-weight: 700;
+      white-space: pre-line;
+    }
+
+    @media (max-width: 360px) {
+      .screen {
+        padding: 24px 14px;
+      }
+
+      .options {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
+  <main class="app">
+    <section id="startScreen" class="screen active">
+      <h1>3分防災デモ</h1>
+      <p class="lead">今すぐできる3分防災を体験してみましょう。</p>
+      <button class="primary" id="startButton" type="button">始める</button>
+    </section>
+
+    <section id="missionScreen" class="screen">
+      <h2>3分防災ミッション</h2>
+      <p class="mission-content">倒れそうな家具を一つ見つける</p>
+      <div class="options" id="options"></div>
+      <input id="otherInput" type="text" placeholder="その他を入力してください">
+      <button class="primary" id="completeButton" type="button">完了</button>
+    </section>
+
+    <section id="completeScreen" class="screen">
+      <p class="complete-message">よくやった！
+3分防災を続けていざという時に備えよう！</p>
+      <button class="primary" id="shareButton" type="button">リレーする</button>
+    </section>
+  </main>
+
+  <script>
+    const screens = {
+      start: document.getElementById('startScreen'),
+      mission: document.getElementById('missionScreen'),
+      complete: document.getElementById('completeScreen')
+    };
+
+    const optionNames = ['食器棚', '本棚', 'タンス', 'テレビ', '冷蔵庫', '電子レンジ', 'パソコン・モニター', 'その他'];
+    const selectedOptions = new Set();
+    const optionsContainer = document.getElementById('options');
+    const otherInput = document.getElementById('otherInput');
+
+    function showScreen(name) {
+      Object.values(screens).forEach((screen) => {
+        screen.classList.remove('active');
+      });
+      screens[name].classList.add('active');
+    }
+
+    function renderOptions() {
+      optionNames.forEach((name) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'option';
+        button.textContent = name;
+        button.setAttribute('aria-pressed', 'false');
+
+        button.addEventListener('click', () => {
+          if (selectedOptions.has(name)) {
+            selectedOptions.delete(name);
+            button.classList.remove('selected');
+            button.setAttribute('aria-pressed', 'false');
+          } else {
+            selectedOptions.add(name);
+            button.classList.add('selected');
+            button.setAttribute('aria-pressed', 'true');
+          }
+
+          const otherSelected = selectedOptions.has('その他');
+          otherInput.style.display = otherSelected ? 'block' : 'none';
+          if (!otherSelected) {
+            otherInput.value = '';
+          }
+        });
+
+        optionsContainer.appendChild(button);
+      });
+    }
+
+    function completeMission() {
+      const hasSelection = selectedOptions.size > 0;
+      const otherSelected = selectedOptions.has('その他');
+      const otherValue = otherInput.value.trim();
+
+      if (!hasSelection || (otherSelected && otherValue.length === 0)) {
+        alert('ミッションの対象を1つ以上入力してください。');
+        return;
+      }
+
+      showScreen('complete');
+    }
+
+    async function relayShare() {
+      const shareData = {
+        title: '3分防災デモ',
+        text: '私は3分防災を実行しました。\nあなたも今すぐ3分でできる防災をやってみませんか？',
+        url: 'https://mintnium.github.io/3min-bousai-demo/'
+      };
+
+      if (navigator.share) {
+        try {
+          await navigator.share(shareData);
+          return;
+        } catch (error) {
+          if (error && error.name === 'AbortError') {
+            return;
+          }
+        }
+      }
+
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+      } catch (error) {
+        const helper = document.createElement('textarea');
+        helper.value = window.location.href;
+        helper.style.position = 'fixed';
+        helper.style.opacity = '0';
+        document.body.appendChild(helper);
+        helper.select();
+        document.execCommand('copy');
+        document.body.removeChild(helper);
+      }
+
+      alert('URLをコピーしました。共有してください。');
+    }
 
 <div class="container">
 
@@ -96,6 +369,11 @@ function shareRelay() {
   }
 }
 </script>
+    document.getElementById('startButton').addEventListener('click', () => showScreen('mission'));
+    document.getElementById('completeButton').addEventListener('click', completeMission);
+    document.getElementById('shareButton').addEventListener('click', relayShare);
 
+    renderOptions();
+  </script>
 </body>
 </html>
