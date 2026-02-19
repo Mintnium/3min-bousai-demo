@@ -92,22 +92,29 @@
 
     .option {
       border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 12px 14px;
+      border-radius: 14px;
+      min-height: 52px;
+      padding: 10px 14px;
       background: var(--option-bg);
       color: var(--text);
       font-size: 15px;
       font-weight: 600;
       cursor: pointer;
-      transition: 0.2s ease;
+      transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       text-align: center;
       user-select: none;
     }
 
     .option.selected {
-      background: var(--option-selected);
-      border-color: rgba(255, 255, 255, 0.7);
-      transform: translateY(-1px);
+      background: #fff8f2;
+      color: #8d2f24;
+      border-color: #ffffff;
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.35), 0 8px 18px rgba(0, 0, 0, 0.2);
+      transform: translateY(-2px) scale(1.01);
+      font-weight: 800;
     }
 
     #otherInput {
@@ -180,7 +187,8 @@
 
       .option {
         font-size: 16px;
-        padding: 13px 12px;
+        min-height: 56px;
+        padding: 12px;
       }
 
       #otherInput {
