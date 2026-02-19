@@ -77,6 +77,12 @@
       line-height: 1.6;
     }
 
+    .screen-brand {
+      font-size: clamp(18px, 4.4vw, 28px);
+      font-weight: 800;
+      letter-spacing: 0.03em;
+    }
+
     .mission-content {
       font-size: clamp(20px, 5vw, 30px);
       line-height: 1.35;
@@ -215,6 +221,7 @@
       <button class="primary" id="startButton" type="button">始める</button>
     </section>
        <section id="missionScreen" class="screen">
+      <p class="screen-brand">3分防災リレー体験版</p>
       <h2>3分防災ミッション</h2>
       <p class="mission-content">倒れそうな家具を一つ見つける</p>
       <div class="options" id="options"></div>
@@ -223,6 +230,7 @@
     </section>
 
     <section id="completeScreen" class="screen">
+      <p class="screen-brand">3分防災リレー体験版</p>
       <p class="complete-message">よくやった！
 3分防災を続けていざという時に備えよう！</p>
       <button class="primary" id="shareButton" type="button">リレーする</button>
