@@ -31,6 +31,12 @@
       background-attachment: scroll;
     }
 
+    html.complete-theme,
+    body.complete-theme {
+      background: var(--bg-start);
+      background-color: var(--bg-start);
+    }
+
     body {
       margin: 0;
       min-height: -webkit-fill-available;
@@ -275,6 +281,81 @@
       color: rgba(255, 255, 255, 0.72);
     }
 
+    .info-page {
+      display: none;
+      min-height: 100dvh;
+      width: 100%;
+      padding: 32px 20px 40px;
+      color: var(--text);
+      overflow-y: auto;
+    }
+
+    .info-page.active {
+      display: block;
+    }
+
+    .info-container {
+      width: min(100%, 920px);
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .info-section {
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.12);
+      padding: 18px 16px;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .info-title {
+      font-size: clamp(24px, 5.6vw, 36px);
+      font-weight: 800;
+    }
+
+    .info-tab {
+      font-size: clamp(22px, 5vw, 30px);
+      font-weight: 800;
+      margin-top: 6px;
+    }
+
+    .info-subtitle {
+      font-size: clamp(18px, 4.2vw, 25px);
+      font-weight: 800;
+      margin-top: 2px;
+    }
+
+    .info-text {
+      font-size: clamp(15px, 3.8vw, 19px);
+      line-height: 1.7;
+      white-space: pre-line;
+    }
+
+    .info-list {
+      margin: 0;
+      padding-left: 1.1em;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      line-height: 1.6;
+      font-size: clamp(15px, 3.8vw, 19px);
+    }
+
+    .image-scroll-placeholder {
+      border: 1px dashed rgba(255, 255, 255, 0.65);
+      border-radius: 16px;
+      padding: 14px;
+      overflow-x: auto;
+      white-space: nowrap;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.86);
+    }
+
     @media (max-width: 360px) {
       .screen {
         padding: 24px 14px;
@@ -366,6 +447,91 @@
     </section>
   </main>
 
+  <section id="appInfoPage" class="info-page" aria-hidden="true">
+    <div class="info-container">
+      <h2 class="info-title">このアプリについて</h2>
+      <section class="info-section">
+        <p class="info-text">3分防災リレーは、防災意識を「知っている」だけで終わらせず、実際の行動につなげ、さらに継続しやすくすることを目指したアプリです。
+短時間で取り組める防災ミッションや、家族・友人などへ防災行動を共有する「リレー」の仕組みによって、防災を日常の中に取り入れやすくします。
+また、自分の取り組みを記録・振り返ることで、防災を一時的な意識ではなく、習慣として積み重ねていくことができます。</p>
+      </section>
+
+      <section class="info-section">
+        <h3 class="info-subtitle">このアプリでできること</h3>
+        <ul class="info-list">
+          <li>短時間でできる防災ミッションに取り組む</li>
+          <li>防災行動を周囲の人へ共有する</li>
+          <li>自分の防災履歴を記録・振り返る</li>
+          <li>履歴をカテゴリごとに整理する</li>
+          <li>防災に関する情報を確認する</li>
+          <li>過去の震災日を知り、防災を考えるきっかけにする</li>
+          <li>ポイントや称号によって継続的に取り組む</li>
+          <li>テーマカラーや通知設定を自分に合わせて調整する</li>
+        </ul>
+      </section>
+
+      <div class="image-scroll-placeholder">画像追加予定エリア（横スクロール想定）</div>
+
+      <section class="info-section">
+        <h3 class="info-tab">ホームタブ</h3>
+        <p class="info-text">ホームタブは、アプリを開いて最初に見る中心的な画面です。
+その日の防災行動に取り組む入口として、ミッションや共有機能、防災情報の確認などをまとめて見ることができます。</p>
+
+        <h4 class="info-subtitle">ミッション</h4>
+        <p class="info-text">ミッションでは、短時間で取り組める防災行動が提示されます。
+「備蓄を確認する」「避難場所を調べる」など、小さな行動から始められるため、防災を身近なものとして続けやすくなります。</p>
+
+        <h4 class="info-subtitle">リレー（共有）</h4>
+        <p class="info-text">リレーは、自分が取り組んだ防災行動を家族や友人などに共有する機能です。
+自分だけで終わらせず、周囲の人へつなげていくことで、防災意識と行動を広げていくことを目指しています。</p>
+
+        <h4 class="info-subtitle">防災情報の確認</h4>
+        <p class="info-text">ホームでは、防災に関する基本的な情報や確認しておきたい内容も見ることができます。
+日頃から情報にふれておくことで、いざというときに必要な知識や備えを意識しやすくなります。</p>
+
+        <h4 class="info-subtitle">過去の震災日</h4>
+        <p class="info-text">過去に発生した震災の日を確認できる機能もあります。
+災害を過去の出来事として終わらせず、改めて防災について考えるきっかけをつくります。</p>
+      </section>
+
+      <section class="info-section">
+        <h3 class="info-tab">防災履歴タブ</h3>
+        <p class="info-text">防災履歴タブでは、自分がこれまで取り組んできた防災行動を記録し、振り返ることができます。
+どのような備えを行ってきたかを見える化することで、継続や改善につなげやすくなります。</p>
+
+        <h4 class="info-subtitle">履歴保存</h4>
+        <p class="info-text">取り組んだ防災行動は履歴として保存できます。
+その場限りで終わらず、後から見返すことで、自分がどのような行動を積み重ねてきたかを確認できます。</p>
+
+        <h4 class="info-subtitle">カテゴリごとにまとめる機能</h4>
+        <p class="info-text">履歴はカテゴリごとに整理して見ることができます。
+たとえば「備蓄」「避難」「連絡手段」などのように分けて確認できるため、自分の備えに偏りがないかも把握しやすくなります。</p>
+
+        <h4 class="info-subtitle">情報を編集できる機能</h4>
+        <p class="info-text">保存した履歴の内容は、後から編集することができます。
+情報を更新したり、記録の内容を修正したりすることで、より正確に自分の防災状況を管理できます。</p>
+      </section>
+
+      <section class="info-section">
+        <h3 class="info-tab">ステータスタブ</h3>
+        <p class="info-text">ステータスタブでは、自分のアプリ内での取り組み状況を確認できます。
+ポイントや称号によって継続のモチベーションを高めるとともに、設定機能によって使いやすさも調整できます。</p>
+
+        <h4 class="info-subtitle">ポイト</h4>
+        <p class="info-text">アプリには、取り組みに応じて獲得できるポイントがあります。
+ミッションに取り組むことで得られるミッションポイントと、防災行動を周囲に共有することで得られるリレーポイントがあり、行動と広がりの両方を評価する仕組みになっています。</p>
+
+        <h4 class="info-subtitle">称号</h4>
+        <p class="info-text">一定の条件を満たすことで称号を獲得できます。
+称号は、自分の継続や達成を実感するきっかけとなり、防災行動を前向きに続ける動機づけになります。</p>
+
+        <h4 class="info-subtitle">設定</h4>
+        <p class="info-text">設定では、アプリの使いやすさを自分に合わせて調整できます。
+アプリのカラーテーマを変更したり、通知の有無や内容を設定したりすることで、日常の中で無理なく使い続けられるようにしています。</p>
+      </section>
+    </div>
+  </section>
+
   <div id="shareModal" class="share-modal" aria-hidden="true">
     <div class="share-modal-card">
       <p class="share-modal-title">友達に送るメッセージを入力しよう！</p>
@@ -385,13 +551,14 @@
       const otherInput = document.getElementById('otherInput');
       const startButton = document.getElementById('startButton');
       const appLinkButton = document.getElementById('appLinkButton');
+      const appInfoPage = document.getElementById('appInfoPage');
       const completeButton = document.getElementById('completeButton');
       const shareButton = document.getElementById('shareButton');
       const shareModal = document.getElementById('shareModal');
       const shareMessageInput = document.getElementById('shareMessageInput');
       const confirmRelayButton = document.getElementById('confirmRelayButton');
 
-      if (!screens.start || !screens.mission || !screens.complete || !optionsContainer || !otherInput || !startButton || !appLinkButton || !completeButton || !shareButton || !shareModal || !shareMessageInput || !confirmRelayButton) {
+      if (!screens.start || !screens.mission || !screens.complete || !optionsContainer || !otherInput || !startButton || !appLinkButton || !appInfoPage || !completeButton || !shareButton || !shareModal || !shareMessageInput || !confirmRelayButton) {
         return;
       }
 
@@ -403,6 +570,9 @@
           screen.classList.remove('active');
         });
         screens[name].classList.add('active');
+
+        document.documentElement.classList.remove('complete-theme');
+        document.body.classList.remove('complete-theme');
       }
 
       function syncOtherInput() {
@@ -508,7 +678,12 @@
         showScreen('mission');
       });
       appLinkButton.addEventListener('click', function () {
-        // TODO: アプリ誘導の動作は後で実装
+        document.documentElement.classList.add('complete-theme');
+        document.body.classList.add('complete-theme');
+        document.querySelector('.app').style.display = 'none';
+        appInfoPage.classList.add('active');
+        appInfoPage.setAttribute('aria-hidden', 'false');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       });
       completeButton.addEventListener('click', completeMission);
       shareButton.addEventListener('click', openShareModal);
