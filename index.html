@@ -46,7 +46,12 @@
       color: var(--text);
       display: grid;
       place-items: center;
-      padding: 20px 16px;
+      padding: calc(20px + env(safe-area-inset-top)) 16px calc(20px + env(safe-area-inset-bottom));
+    }
+
+    body.info-open {
+      display: block;
+      padding: 0;
     }
 
     .app {
@@ -285,7 +290,7 @@
       display: none;
       min-height: 100dvh;
       width: 100%;
-      padding: 32px 20px 40px;
+      padding: calc(24px + env(safe-area-inset-top)) 20px calc(40px + env(safe-area-inset-bottom));
       color: var(--text);
       overflow-y: auto;
     }
@@ -508,7 +513,7 @@
 たとえば「備蓄」「避難」「連絡手段」などのように分けて確認できるため、自分の備えに偏りがないかも把握しやすくなります。</p>
 
         <h4 class="info-subtitle">情報を編集できる機能</h4>
-        <p class="info-text">保存した履歴の内容は、後から編集することができます。
+        <p class="info-text">保存した履歴の容は、後から編集することができます。
 情報を更新したり、記録の内容を修正したりすることで、より正確に自分の防災状況を管理できます。</p>
       </section>
 
@@ -517,7 +522,7 @@
         <p class="info-text">ステータスタブでは、自分のアプリ内での取り組み状況を確認できます。
 ポイントや称号によって継続のモチベーションを高めるとともに、設定機能によって使いやすさも調整できます。</p>
 
-        <h4 class="info-subtitle">ポイト</h4>
+        <h4 class="info-subtitle">ポイント</h4>
         <p class="info-text">アプリには、取り組みに応じて獲得できるポイントがあります。
 ミッションに取り組むことで得られるミッションポイントと、防災行動を周囲に共有することで得られるリレーポイントがあり、行動と広がりの両方を評価する仕組みになっています。</p>
 
@@ -680,6 +685,7 @@
       appLinkButton.addEventListener('click', function () {
         document.documentElement.classList.add('complete-theme');
         document.body.classList.add('complete-theme');
+        document.body.classList.add('info-open');
         document.querySelector('.app').style.display = 'none';
         appInfoPage.classList.add('active');
         appInfoPage.setAttribute('aria-hidden', 'false');
