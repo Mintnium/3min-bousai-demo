@@ -323,6 +323,10 @@
       font-weight: 800;
     }
 
+    .secondary-link {
+      margin-top: 12px;
+    }
+
     .info-back {
       width: fit-content;
       min-width: 120px;
@@ -468,6 +472,7 @@
         <button class="primary" id="startButton" type="button">始める</button>
       </div>
       <button class="app-link" id="appLinkButton" type="button">3分防災リレーアプリ</button>
+      <button class="app-link secondary-link" id="futureButton" type="button">今後の展望</button>
     </section>
        <section id="missionScreen" class="screen">
       <p class="screen-brand fixed">3分防災リレー体験版</p>
@@ -542,7 +547,7 @@
 災害を過去の出来事として終わらせず、改めて防災について考えるきっかけをつくります。</p>
       </section>
 
-      <div class="info-visual-gallery" aria-label="防災履歴タブ関連画像">
+      <div class="info-visual-gallery" aria-label="防災履歴ブ関連画像">
         <img src="image6.png" alt="防災履歴タブ画像1">
         <img src="image7.png" alt="防災履歴タブ画像2">
         <img src="image8.png" alt="防災履歴タブ画像3">
@@ -587,6 +592,17 @@
     </div>
   </section>
 
+  <section id="futurePage" class="info-page" aria-hidden="true">
+    <div class="info-container">
+      <button class="primary info-back" id="backFromFutureButton" type="button">戻る</button>
+      <h2 class="info-title">今後の展望</h2>
+      <section class="info-section">
+        <p class="info-text">現在は、審査や運営上の課題により、App Storeでの公開は行っていません。
+一方で、より多くの方が日常の中で防災に取り組めるよう、2027年中にユーザー体験をさらに改善したリメイク版を開発し、iPhone向けアプリストア「App Store」、Android向けアプリストア「Play Store」での公開を検討しています。</p>
+      </section>
+    </div>
+  </section>
+
   <div id="shareModal" class="share-modal" aria-hidden="true">
     <div class="share-modal-card">
       <p class="share-modal-title">友達に送るメッセージを入力しよう！</p>
@@ -606,15 +622,18 @@
       const otherInput = document.getElementById('otherInput');
       const startButton = document.getElementById('startButton');
       const appLinkButton = document.getElementById('appLinkButton');
+      const futureButton = document.getElementById('futureButton');
       const appInfoPage = document.getElementById('appInfoPage');
+      const futurePage = document.getElementById('futurePage');
       const backToStartButton = document.getElementById('backToStartButton');
+      const backFromFutureButton = document.getElementById('backFromFutureButton');
       const completeButton = document.getElementById('completeButton');
       const shareButton = document.getElementById('shareButton');
       const shareModal = document.getElementById('shareModal');
       const shareMessageInput = document.getElementById('shareMessageInput');
       const confirmRelayButton = document.getElementById('confirmRelayButton');
 
-      if (!screens.start || !screens.mission || !screens.complete || !optionsContainer || !otherInput || !startButton || !appLinkButton || !appInfoPage || !backToStartButton || !completeButton || !shareButton || !shareModal || !shareMessageInput || !confirmRelayButton) {
+      if (!screens.start || !screens.mission || !screens.complete || !optionsContainer || !otherInput || !startButton || !appLinkButton || !futureButton || !appInfoPage || !futurePage || !backToStartButton || !backFromFutureButton || !completeButton || !shareButton || !shareModal || !shareMessageInput || !confirmRelayButton) {
         return;
       }
 
@@ -637,6 +656,33 @@
         if (!enabled) {
           otherInput.value = '';
         }
+      }
+
+      function hideDetailPages() {
+        appInfoPage.classList.remove('active');
+        appInfoPage.setAttribute('aria-hidden', 'true');
+        futurePage.classList.remove('active');
+        futurePage.setAttribute('aria-hidden', 'true');
+      }
+
+      function openDetailPage(page) {
+        hideDetailPages();
+        document.documentElement.classList.add('complete-theme');
+        document.body.classList.add('complete-theme');
+        document.body.classList.add('info-open');
+        document.querySelector('.app').style.display = 'none';
+        page.classList.add('active');
+        page.setAttribute('aria-hidden', 'false');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function returnToStartScreen() {
+        hideDetailPages();
+        document.querySelector('.app').style.display = '';
+        document.documentElement.classList.remove('complete-theme');
+        document.body.classList.remove('complete-theme');
+        document.body.classList.remove('info-open');
+        showScreen('start');
       }
 
       function renderOptions() {
@@ -734,23 +780,13 @@
         showScreen('mission');
       });
       appLinkButton.addEventListener('click', function () {
-        document.documentElement.classList.add('complete-theme');
-        document.body.classList.add('complete-theme');
-        document.body.classList.add('info-open');
-        document.querySelector('.app').style.display = 'none';
-        appInfoPage.classList.add('active');
-        appInfoPage.setAttribute('aria-hidden', 'false');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        openDetailPage(appInfoPage);
       });
-      backToStartButton.addEventListener('click', function () {
-        appInfoPage.classList.remove('active');
-        appInfoPage.setAttribute('aria-hidden', 'true');
-        document.querySelector('.app').style.display = '';
-        document.documentElement.classList.remove('complete-theme');
-        document.body.classList.remove('complete-theme');
-        document.body.classList.remove('info-open');
-        showScreen('start');
+      futureButton.addEventListener('click', function () {
+        openDetailPage(futurePage);
       });
+      backToStartButton.addEventListener('click', returnToStartScreen);
+      backFromFutureButton.addEventListener('click', returnToStartScreen);
       completeButton.addEventListener('click', completeMission);
       shareButton.addEventListener('click', openShareModal);
       confirmRelayButton.addEventListener('click', relayShare);
